@@ -8,12 +8,17 @@ import Loading from './Loading'
 
 function WeatherForm({setWeatherData, setDisplayHome, imperialUnits}) {
     const [isLoading, setIsLoading] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("")
     const [isError, setIsError] = useState(false)
 
     function handleGeoLocationButton(e) {
-        navigator.geolocation.getCurrentPosition(success)
+        navigator.geolocation.getCurrentPosition(success, failure)
         function success(pos) {
             getWeatherData(pos.coords)
+        }
+        function failure() {
+            setIsError(true)
+            setErrorMessage("Please enable Location Services")
         }
     }
 
@@ -31,12 +36,13 @@ function WeatherForm({setWeatherData, setDisplayHome, imperialUnits}) {
         if (pos) {
             let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${pos.latitude}&lon=${pos.longitude}&units=${units}&appid=${API_KEY}`)
             data = await response.json()
-            console.log(data)
+            
         }
         if (location) {
             let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&units=${units}&appid=${API_KEY}`)
             if (!response.ok){
                 setIsError(true)
+                setErrorMessage("Invalid Location.")
                 setIsLoading(false)
                 return
             }
@@ -75,7 +81,7 @@ function WeatherForm({setWeatherData, setDisplayHome, imperialUnits}) {
                 </Button>
                 <Button onClick={handleGoButton}>Go</Button>
             </InputGroup>
-            {isError ? <Alert variant='danger' className='p-0 m-0 text-center'>Invalid Location. Please try again.</Alert> : <></>}
+            {isError ? <Alert variant='danger' className='p-0 m-0 text-center'>{errorMessage}</Alert> : <></>}
             {isLoading ? <Loading /> : <></>}
         </Form>
     )
