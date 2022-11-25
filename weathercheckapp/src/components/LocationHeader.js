@@ -1,7 +1,7 @@
 
-function LocationHeader({location}) {
+function LocationHeader({location, country}) {
     return(
-        <h5>Current Weather for {location}</h5>
+        <h5>Current Weather for {location}, {country} </h5>
     )
 }
 export default LocationHeader

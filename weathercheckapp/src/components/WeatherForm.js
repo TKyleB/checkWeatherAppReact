@@ -1,9 +1,14 @@
 import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'
 import Button from 'react-bootstrap/Button'
+import Alert from 'react-bootstrap/Alert'
+import {useState} from 'react'
 import {GeoAltFill} from 'react-bootstrap-icons'
+import Loading from './Loading'
 
 function WeatherForm({setWeatherData, setDisplayHome, imperialUnits}) {
+    const [isLoading, setIsLoading] = useState(false)
+    const [isError, setIsError] = useState(false)
 
     function handleGeoLocationButton(e) {
         navigator.geolocation.getCurrentPosition(success)
@@ -20,16 +25,23 @@ function WeatherForm({setWeatherData, setDisplayHome, imperialUnits}) {
 
     async function getWeatherData(pos, location) {
         const API_KEY = "9e2784936f680d48653338cba21190e3"
+        setIsLoading(true)
         let data
         let units = imperialUnits ? "imperial" : "metric"
         if (pos) {
             let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${pos.latitude}&lon=${pos.longitude}&units=${units}&appid=${API_KEY}`)
             data = await response.json()
+            console.log(data)
         }
         if (location) {
             let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&units=${units}&appid=${API_KEY}`)
+            if (!response.ok){
+                setIsError(true)
+                setIsLoading(false)
+                return
+            }
             data = await response.json()
-            console.log(data)
+            
         }
         setWeatherData({
             feels_like: (data.main.feels_like).toFixed(1),
@@ -37,6 +49,7 @@ function WeatherForm({setWeatherData, setDisplayHome, imperialUnits}) {
             min_temp: (data.main.temp_min).toFixed(1),
             max_temp: (data.main.temp_max).toFixed(1),
             location: data.name,
+            country: data.sys.country,
             humidity: data.main.humidity,
             wind_speed: (data.wind.speed).toFixed(1),
             current_conditions: data.weather[0].description,
@@ -45,6 +58,7 @@ function WeatherForm({setWeatherData, setDisplayHome, imperialUnits}) {
 
         })
         setDisplayHome(false)
+        setIsLoading(false)
         
     }
     return(
@@ -61,6 +75,8 @@ function WeatherForm({setWeatherData, setDisplayHome, imperialUnits}) {
                 </Button>
                 <Button onClick={handleGoButton}>Go</Button>
             </InputGroup>
+            {isError ? <Alert variant='danger' className='p-0 m-0 text-center'>Invalid Location. Please try again.</Alert> : <></>}
+            {isLoading ? <Loading /> : <></>}
         </Form>
     )
 

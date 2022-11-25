@@ -15,6 +15,7 @@ function Home(){
             min_temp: null,
             max_temp: null,
             location: null,
+            country: null,
             humidity: null,
             wind_speed: null,
             current_conditions: null,

@@ -17,10 +17,12 @@ function WeatherDataDisplay({weatherData, setWeatherData, setDisplayHome, setImp
             min_temp: ((weatherData.min_temp - 32) * (5/9)).toFixed(1),
             max_temp: ((weatherData.max_temp - 32) * (5/9)).toFixed(1),
             location: weatherData.location,
+            country: weatherData.country,
             humidity: weatherData.humidity,
             wind_speed: (weatherData.wind_speed * .4470).toFixed(1),
             current_conditions: weatherData.current_conditions,
-            pressure: weatherData.pressure
+            pressure: weatherData.pressure,
+            image: weatherData.image
         })
     }
 
@@ -31,12 +33,17 @@ function WeatherDataDisplay({weatherData, setWeatherData, setDisplayHome, setImp
             min_temp: ((weatherData.min_temp * 9 / 5) + 32).toFixed(1),
             max_temp: ((weatherData.max_temp * 9 / 5) + 32).toFixed(1),
             location: weatherData.location,
+            country: weatherData.country,
             humidity: weatherData.humidity,
             wind_speed: (weatherData.wind_speed * 2.23).toFixed(1),
             current_conditions: weatherData.current_conditions,
-            pressure: weatherData.pressure
+            pressure: weatherData.pressure,
+            image: weatherData.image
 
         })
+    }
+    function titleCase(string) {
+        return string.split(" ").map(s => s[0].toUpperCase() + s.substring(1)).join(" ")
     }
     return (
         <div className='border p-2'>
@@ -46,6 +53,7 @@ function WeatherDataDisplay({weatherData, setWeatherData, setDisplayHome, setImp
                 <span>{weatherData.temp} {imperialUnits ? "F" : "C"}</span>
                 <h5>Current Conditions</h5>
                 <span><Image className="m-0 p-0" src={weatherData.image} alt="" roundedCircle></Image></span>
+                <span>{titleCase(weatherData.current_conditions)}</span>
             </div>
         </div>
         <div className='d-flex gap-3 mt-3 justify-content-center align-items-center'>
