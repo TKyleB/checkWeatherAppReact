@@ -1,11 +1,11 @@
 import LocationHeader from "./LocationHeader"
 import WeatherDataDisplay from "./WeatherDataDisplay"
 
-function WeatherInfo() {
+function WeatherInfo({weatherData, setWeatherData, setDisplayHome, setImperialUnits, imperialUnits}) {
     return(
         <>
-        <LocationHeader location="Honoraville"/>
-        <WeatherDataDisplay />
+        <LocationHeader location={weatherData.location}/>
+        <WeatherDataDisplay weatherData={weatherData} setWeatherData={setWeatherData} setDisplayHome={setDisplayHome} setImperialUnits={setImperialUnits} imperialUnits={imperialUnits}/>
         </>
     )
 }

@@ -1,7 +1,10 @@
 
 function Title() {
     return (
-        <h1>weatherCheckAppReact</h1>
+        <div className="d-flex">
+            <h1>weatherCheckAppReact</h1>
+        </div>
+        
     )
 }
 

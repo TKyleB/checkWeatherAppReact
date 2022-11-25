@@ -1,7 +1,7 @@
 
-function LocationHeader(props) {
+function LocationHeader({location}) {
     return(
-        <h5>Current Weather for {props.location}</h5>
+        <h5>Current Weather for {location}</h5>
     )
 }
 export default LocationHeader
