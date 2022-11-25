@@ -6,20 +6,30 @@ import {GeoAltFill} from 'react-bootstrap-icons'
 function WeatherForm({setWeatherData, setDisplayHome, imperialUnits}) {
 
     function handleGeoLocationButton(e) {
-
         navigator.geolocation.getCurrentPosition(success)
         function success(pos) {
             getWeatherData(pos.coords)
         }
     }
 
+    function handleGoButton(e) {
+        let location = document.getElementById("location").value
+        getWeatherData(null, location)
+    }
 
-    async function getWeatherData(pos) {
+
+    async function getWeatherData(pos, location) {
         const API_KEY = "9e2784936f680d48653338cba21190e3"
+        let data
         let units = imperialUnits ? "imperial" : "metric"
-        let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${pos.latitude}&lon=${pos.longitude}&units=${units}&appid=${API_KEY}`)
-        let data = await response.json()
-        console.log(data)
+        if (pos) {
+            let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${pos.latitude}&lon=${pos.longitude}&units=${units}&appid=${API_KEY}`)
+            data = await response.json()
+        }
+        if (location) {
+            let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&units=${units}&appid=${API_KEY}`)
+            data = await response.json()
+        }
         setWeatherData({
             feels_like: (data.main.feels_like).toFixed(1),
             temp: (data.main.temp).toFixed(1),
@@ -41,12 +51,13 @@ function WeatherForm({setWeatherData, setDisplayHome, imperialUnits}) {
                 <Form.Control
                     placeholder='Enter a location'
                     area-aria-label='Enter a location'
+                    id='location'
                     />
                 <Button variant='secondary'
                         onClick={handleGeoLocationButton}>
                     <GeoAltFill />
                 </Button>
-                <Button>Go</Button>
+                <Button onClick={handleGoButton}>Go</Button>
             </InputGroup>
         </Form>
     )
