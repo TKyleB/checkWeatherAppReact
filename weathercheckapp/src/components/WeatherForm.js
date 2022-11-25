@@ -29,6 +29,7 @@ function WeatherForm({setWeatherData, setDisplayHome, imperialUnits}) {
         if (location) {
             let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&units=${units}&appid=${API_KEY}`)
             data = await response.json()
+            console.log(data)
         }
         setWeatherData({
             feels_like: (data.main.feels_like).toFixed(1),
@@ -40,6 +41,7 @@ function WeatherForm({setWeatherData, setDisplayHome, imperialUnits}) {
             wind_speed: (data.wind.speed).toFixed(1),
             current_conditions: data.weather[0].description,
             pressure: data.main.pressure,
+            image: "https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png"
 
         })
         setDisplayHome(false)

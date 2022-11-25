@@ -42,10 +42,10 @@ function WeatherDataDisplay({weatherData, setWeatherData, setDisplayHome, setImp
         <div className='border p-2'>
         <div className="d-flex justify-content-center align-items-center gap-3">
             <div className="d-flex flex-column align-items-center px-5">
-                <h5>Temperature</h5>
+                <h4>Temperature</h4>
                 <span>{weatherData.temp} {imperialUnits ? "F" : "C"}</span>
                 <h5>Current Conditions</h5>
-                <span><Image className="m-0 p-0" src="https://openweathermap.org/img/wn/10n@2x.png" alt="" roundedCircle></Image></span>
+                <span><Image className="m-0 p-0" src={weatherData.image} alt="" roundedCircle></Image></span>
             </div>
         </div>
         <div className='d-flex gap-3 mt-3 justify-content-center align-items-center'>

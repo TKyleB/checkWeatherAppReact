@@ -19,6 +19,7 @@ function Home(){
             wind_speed: null,
             current_conditions: null,
             pressure: null,
+            image: null
         })
     if (displayHome) {
         return(
