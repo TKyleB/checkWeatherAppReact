@@ -74,6 +74,7 @@ function WeatherForm({setWeatherData, setDisplayHome, imperialUnits}) {
                     placeholder='Enter a location'
                     area-aria-label='Enter a location'
                     id='location'
+                    className='text-center'
                     />
                 <Button variant='secondary'
                         onClick={handleGeoLocationButton}>
